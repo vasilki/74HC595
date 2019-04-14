@@ -27,6 +27,7 @@ void main_usercode(void)
   static unsigned int loc_prev_time_ms=0;
   static unsigned int loc_prev_time_sec=0;
   static unsigned char loc_B_LCD_Print = 0;
+  uint8_t loc_srbyte = 0;
 
   main_Init();
 
@@ -38,9 +39,39 @@ void main_usercode(void)
   /*HeartBeat*/
   main_heartbeat();
 
+  /*Running LED*/
   if(loc_time_sec != loc_prev_time_sec)
   {
-    sprintf(loc_buff,"%04d",loc_time_sec);
+    switch(loc_time_sec % 4)
+    {
+      case 0:
+        loc_srbyte = 0b00000001;
+        break;
+      case 1:
+        loc_srbyte = 0b00000010;
+        break;
+      case 2:
+        loc_srbyte = 0b00000100;
+        break;
+      case 3:
+        loc_srbyte = 0b00001000;
+        break;
+      default:
+        /*nothing to do*/
+        break;
+    }
+    sr74hc595_WriteByte(loc_srbyte);
+  }
+  else
+  {
+    /*nothing to do*/
+  }
+
+ 
+  
+  if(loc_time_sec != loc_prev_time_sec)
+  {
+    sprintf(loc_buff,"%04d %04x",loc_time_sec,loc_srbyte);
     //lcd_ClearLCDScreen();
     lcd_Return();
     lcd_SetCursor(1,0);
@@ -99,9 +130,13 @@ void main_Init(void)
     lcd_Init(loc_LCD_GPIO_Parameters);
     lcd_ClearLCDScreen();
     lcd_SetCursor(0,0);
-    lcd_PrintStr("IRISHKA");
+    lcd_PrintStr("74HC595");
 
     loc_B_IsFirstTime = 1;
+    
+    /*74HC595 init*/
+    sr74hc595_Init(GPIOC,GPIO_PIN_10,GPIO_PIN_11,GPIO_PIN_12);
+    
   }
   else
   {
