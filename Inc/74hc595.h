@@ -5,8 +5,8 @@
  *      Author: vasilek
  */
 
-#ifndef 74HC595_H_
-#define 74HC595_H_
+#ifndef H_74HC595_H_
+#define H_74HC595_H_
 
 #include "stm32f401xe.h"
 
@@ -19,4 +19,4 @@ void sr74hc595_WriteByte(uint8_t par_byte);
 /*Reset outputs of 74HC595 without using MR-pin*/
 void sr74hc595_Reset(void);
 
-#endif /* 74HC595_H_ */
+#endif /* H_74HC595_H_ */

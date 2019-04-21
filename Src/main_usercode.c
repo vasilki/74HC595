@@ -6,9 +6,10 @@
 #include "timers.h"
 #include "uart.h"
 #include "lcd_1602.h"
+#include "74hc595.h"
 
 extern UART_HandleTypeDef huart1; /*declared in main.c*/
-extern ADC_HandleTypeDef hadc1; /*declared in main.c*/
+//extern ADC_HandleTypeDef hadc1; /*declared in main.c*/
 extern TIM_HandleTypeDef htim9;
 extern TIM_HandleTypeDef htim10;
 static T_LCD_GPIO_Parameters loc_LCD_GPIO_Parameters;
